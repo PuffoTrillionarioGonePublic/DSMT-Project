@@ -1,0 +1,61 @@
+version: "3.8"
+
+x-shared-env: &env
+  LEADER: ra@node0.dsmt
+  # erlnag -name is name@host
+  NODE_NAME_NAME: ra
+
+
+services:
+# 3 nodes erlnag cluster
+  node0:
+    build: cluster
+    hostname: node0.dsmt
+    environment:
+      <<: *env
+    ports:
+      - 127.0.0.1:8080:8080
+
+  node1:
+    build: cluster
+    hostname: node1.dsmt
+    environment:
+      <<: *env
+    ports:
+      - 127.0.0.1:8081:8080
+    depends_on:
+      - node0
+
+  node2:
+    build: cluster
+    hostname: node2.dsmt
+    environment:
+      <<: *env
+    ports:
+      - 127.0.0.1:8082:8080
+    depends_on:
+      - node0
+  
+# kotlin server
+  server:
+    build: server
+    hostname: server.dsmt
+    ports:
+      - 127.0.0.1:8084:8084
+    environment:
+      - ERLDB_CONNECTION_STRING=jdbc:erldb://node0.dsmt:8080,node1.dsmt:8080,node2.dsmt:8080
+    depends_on:
+      - node0
+      - node1
+      - node2
+    
+# svelete web frontend
+  frontend:
+    build: frontend
+    hostname: frontend.dsmt
+    ports:
+      - 8000:4173
+    environment:
+      - BACKEND_API_URL=http://server.dsmt:8084
+    depends_on:
+      - server

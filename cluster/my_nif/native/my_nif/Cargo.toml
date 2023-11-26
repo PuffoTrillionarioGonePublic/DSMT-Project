@@ -1,0 +1,21 @@
+[package]
+name = "my_nif"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "my_nif"
+path = "src/lib.rs"
+crate-type = ["dylib"]
+
+[dependencies]
+base64 = "0.21.3"
+rusqlite = "0.29.0"
+serde = { version = "1.0.188", features = ["derive"] }
+serde_json = "1.0.105"
+strum = { version = "0.25.0", features = ["derive", "phf", "strum_macros"] }
+rustler = "0.30.0"
+rusqlite_async = { path = "rusqlite_async" }
+uuid = { version = "1.1.2", features = ["v1", "v3", "v4"] }

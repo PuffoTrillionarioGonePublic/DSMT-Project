@@ -1,0 +1,11 @@
+[
+    {ra, [{data_dir, "${RA_DATA_DIR}"}]},
+	{erlang_project,
+		[
+			{port, 8080},
+			{leader, '${LEADER}'},
+			{release_cursor_every, ${RELEASE_CURSOR_EVERY}},
+			{sql_data_dir, "${SQL_DATA_DIR}"}
+		]
+	}
+].

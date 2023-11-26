@@ -1,0 +1,4 @@
+-name ${NODE_NAME_NAME}@${HOSTNAME}
+-setcookie ${COOKIE:-secret}
+-noshell
+-heart
